@@ -1,21 +1,21 @@
 # Intro to Solidity & Ethereum
 
-This repository contains notes from a course named [Basic Aspects of Programming with Solidity](https://distributed.education/solidity-course) from [Distributed Lab](https://distributedlab.com/).
+This repository contains notes from [Basic Aspects of Programming with Solidity](https://distributed.education/solidity-course) course from [Distributed Lab](https://distributedlab.com/).
 
 ## Table of Contents
 
 - [Ethereum the world computer](#ethereum-the-world-computer)
-- [Ethereum transactions and blocks](#ethereum-blocks)
-- [Practical cryptography in Ethereum](#cryptography)
-- [Ethereum smart contracts](#smart-contracts)
+- [Ethereum transactions and blocks](#ethereum-transactions-and-blocks)
+- [Practical cryptography in Ethereum](#practical-cryptography-in-ethereum)
+- [Ethereum smart contracts](#ethereum-smart-contracts)
 - [Solidity Variables](#solidity-variables)
 - [Solidity Functions](#solidity-functions)
-- [OOP in Solidity](#solidity-oop)
-- [Advanced Solidity: Assembly and data locations](#advanced-solidity)
-- [Proxy and libraries](#proxy-libraries)
-- [Advanced Solidity: Precompiles, signatures, and bytecode](#precompiles)
-- [Token standards, ERC20 tokens](#token-standards)
-- [ERC721 and ERC1155 tokens](#erc721-erc1155)
+- [OOP in Solidity](#oop-in-solidity)
+- [Advanced Solidity: Assembly and data locations](#advanced-solidity-assembly-and-data-locations)
+- [Proxy and libraries](#proxy-and-libraries)
+- [Advanced Solidity: Precompiles, signatures, and bytecode](#advanced-solidity-precompiles-signatures-and-bytecode)
+- [Token standards, ERC20 tokens](#token-standards-erc20-tokens)
+- [ERC721 and ERC1155 tokens](#erc721-and-erc1155-tokens)
 
 ## Ethereum the world computer
 
