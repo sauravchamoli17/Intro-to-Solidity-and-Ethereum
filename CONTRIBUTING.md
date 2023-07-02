@@ -38,12 +38,6 @@ If you have any questions or need assistance with your contribution, feel free t
 - Join the discussion in the project's GitHub Discussions.
 - Contact the project maintainers via email.
 
-## Code of Conduct
-
-Please note that this project follows a Code of Conduct. We expect all contributors to adhere to the guidelines outlined in the [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) file.
-
-By contributing to this project, you agree to abide by the Code of Conduct.
-
 ## License
 
 By contributing your code, you agree to license your contribution under the terms of the [MIT License](LICENSE).
