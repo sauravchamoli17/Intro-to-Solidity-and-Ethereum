@@ -248,6 +248,82 @@ contract Example {
 - Dapps interact with smart contracts through function calls and event listening. They invoke functions defined in the contract using the ABI, which specifies function names, parameters, and return types. dApps can also retrieve contract data and respond to events emitted by the contract. This interaction enables dApps to execute functions, access contract state, and provide real-time updates based on contract events.
 
 ## Solidity Variables
+
+### Solidity Variable Types
+
+### Value types
+
+- Value types in solidity are used inside the functions and mostly lives on stack.
+
+```
+bool (aka uint8)
+int8, int16, …, int256 (signed integers, 0xff..ff = -1)
+uint8, uint16, …, uint256 (unsigned integers, 0x00..01 = 1)
+address, address payable
+bytes1, bytes2, …, bytes32 (0x10..00 = 1)
+```
+
+```
+contract Example {
+   function foo() external {
+       bytes4 selector = Example. foo. selector;
+       address caller = msg. sender;
+       uint256 callerUint256 = uint256(uint160 (caller));
+       bool areEqual = ~(int256(0)) == int256(-1);
+   }
+}
+```
+
+### Memory types
+
+- Special types of variables that consume more memory than stack allows, so they are placed on memory(heap).
+- bytes (tightly packed raw bytes)
+- string (tightly packed UTF-8 encoded characters)
+- Fixed length arrays
+- Dynamic length arrays
+
+```
+contract Example {
+    function foo) external {
+        bytes memory someBytes = hex"112233445566";
+        string memory someString = "Hello, world!";
+        uint256[1 memory numbers = new uint256[1(10);
+        address [2] memory addresses = [address(1), address (2)];
+        // Dynamic array of static arrays of strings
+        string(2][] memory complexArray = new string[2][](5);
+    }
+}
+```
+
+### User-defined types
+- lives mostly in memory with stack pointers, made by aggregation of several other value types or memory types.
+
+```
+contract Example {
+    struct User {
+        string name;
+        address account;
+        uint32 age;
+    }
+    function fool) external {
+        User memory user = User({name: "Bob", account: msg .sender, age: 223);
+    }
+}    
+```
+
+### Type aliases
+- In Solidity, type aliases allow developers to define alternative names for existing types, making code more readable and providing a way to create custom types based on existing ones.
+
+```
+type MyUint is uint256;
+    library MyUinter {
+        function add(MyUint a, MyUint b) internal pure returns (MyUint) {
+            return MyUint.wrap(MyUint.unwrap(a) + MyUint. unwrap (b));
+        }
+    }
+}    
+```
+
 ## Solidity Functions
 ## OOP in Solidity
 ## Advanced Solidity: Assembly and data locations
