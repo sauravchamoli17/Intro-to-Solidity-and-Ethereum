@@ -324,6 +324,63 @@ type MyUint is uint256;
 }    
 ```
 
+### Fixed point number types
+
+- Right now Solidity doesn’t support fixed point numbers, so to overcome the limitation simple trick is used. 
+- The on-chain calculations are made on uint256 numbers with increased precision. When the result is needed, off-chain services query the contract and decrease the precision back. 
+- So 2 / 100 would be 2 * <precision> / 100.
+
+### 5 locations of Solidity variables
+
+- Local variables (stack)
+- Memory
+- Calldata and returndata
+- Storage
+- Constants and immutables
+
+### Stack
+- Stack location refers to the memory location where variables and function parameters are stored during contract execution. It is a temporary storage area used for efficient processing and typically used for variables with a limited scope within a function.
+
+### Memory
+- Memory is a data location where smart contracts store temporary data. Memory is zeroed at the start and destroyed at the end of the call context. Maximal accessible memory pointer is 2**256-1.
+
+![Memory](https://res.cloudinary.com/dg6ijhjsn/image/upload/v1688921406/Screenshot_from_2023-07-09_22-19-49_aw3u7s.png)
+
+### Calldata and returndata
+
+- `calldata`: It is an immutable and read-only area of memory that contains the function arguments and data sent from an external contract or externally owned account (EOA) when calling a function. Solidity functions can access and read data from calldata but cannot modify its contents.
+
+- `returndata`: It is the memory area used to store the return values and data sent back by external function calls. When a contract invokes a function on another contract, the return data from that function call is stored in returndata. The calling contract can read and process the returned data.
+
+### Storage
+- Storage is a data location where smart contracts store their state. Storage is a map of 32-byte slots to 32-byte values. If anything is written to storage, it is retained past the completion of the transaction. Non-initialized slots return zero when read.
+
+![Storage](https://res.cloudinary.com/dg6ijhjsn/image/upload/v1688921674/Screenshot_from_2023-07-09_22-24-20_cm7jze.png)
+
+### Constants and immutables
+
+- Constants and immutables are special types of variables that live in the contract’s bytecode. - Constants are (usually) evaluated during compilation and immutables during contract’s deployment. After that they are encoded directly in the bytecode where they are used.
+
+```
+contract Example {
+    address internal constant ADMIN = address (5);
+    address internal immutable SELF;
+    
+    // storage slot 0 for length
+    // slot keccak256(0) for data if length is > 31 bytes
+    string public name;
+    
+    constructor () {
+        SELF = address(this );
+    }
+    
+    function setName (string calldata name_) external {
+        require(msg.sender == ADMIN, "Not and admin");
+        name = name:
+    }
+}    
+```
+
 ## Solidity Functions
 ## OOP in Solidity
 ## Advanced Solidity: Assembly and data locations
