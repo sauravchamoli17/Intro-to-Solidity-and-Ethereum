@@ -284,7 +284,7 @@ contract Example {
 
 ```solidity
 contract Example {
-    function foo) external {
+    function foo() external {
         bytes memory someBytes = hex"112233445566";
         string memory someString = "Hello, world!";
         uint256[1 memory numbers = new uint256[1(10);
@@ -305,7 +305,7 @@ contract Example {
         address account;
         uint32 age;
     }
-    function fool) external {
+    function fool() external {
         User memory user = User({name: "Bob", account: msg .sender, age: 223);
     }
 }    
