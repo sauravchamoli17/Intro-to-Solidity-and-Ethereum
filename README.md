@@ -255,7 +255,7 @@ contract Example {
 
 - Value types in solidity are used inside the functions and mostly lives on stack.
 
-```
+```solidity
 bool (aka uint8)
 int8, int16, …, int256 (signed integers, 0xff..ff = -1)
 uint8, uint16, …, uint256 (unsigned integers, 0x00..01 = 1)
@@ -263,7 +263,7 @@ address, address payable
 bytes1, bytes2, …, bytes32 (0x10..00 = 1)
 ```
 
-```
+```solidity
 contract Example {
    function foo() external {
        bytes4 selector = Example. foo. selector;
@@ -282,7 +282,7 @@ contract Example {
 - Fixed length arrays
 - Dynamic length arrays
 
-```
+```solidity
 contract Example {
     function foo) external {
         bytes memory someBytes = hex"112233445566";
@@ -298,7 +298,7 @@ contract Example {
 ### User-defined types
 - lives mostly in memory with stack pointers, made by aggregation of several other value types or memory types.
 
-```
+```solidity
 contract Example {
     struct User {
         string name;
@@ -314,7 +314,7 @@ contract Example {
 ### Type aliases
 - In Solidity, type aliases allow developers to define alternative names for existing types, making code more readable and providing a way to create custom types based on existing ones.
 
-```
+```solidity
 type MyUint is uint256;
     library MyUinter {
         function add(MyUint a, MyUint b) internal pure returns (MyUint) {
@@ -361,7 +361,7 @@ type MyUint is uint256;
 
 - Constants and immutables are special types of variables that live in the contract’s bytecode. - Constants are (usually) evaluated during compilation and immutables during contract’s deployment. After that they are encoded directly in the bytecode where they are used.
 
-```
+```solidity
 contract Example {
     address internal constant ADMIN = address (5);
     address internal immutable SELF;
