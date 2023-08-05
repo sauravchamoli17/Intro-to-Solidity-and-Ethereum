@@ -880,43 +880,43 @@ contract Example {
 
 ![Proxies](https://res.cloudinary.com/dg6ijhjsn/image/upload/v1691228130/Screenshot_from_2023-08-05_15-05-16_a8roxt.png)
 
-## How do proxies work?
+### How do proxies work?
 
 - Proxies are standalone contracts that leverage the concept of a fallback function and a delegatecall.
 - Proxies keep the implementation address in a special slot to mitigate storage collisions.
 - When a user calls a proxy, the call is forwarded to a fallback function. The fallback then delegatecalls the implementation, using the provided calldata.
 - The implementation bytecode is executed on the proxy storage.
 
-## When fallback and receive are called?
+### When fallback and receive are called?
 
 - receive function must be payable, can be virtual.
 - fallback function may be payable, can be virtual.
 
 ![Fallback&Recieve](https://res.cloudinary.com/dg6ijhjsn/image/upload/v1691228290/Screenshot_from_2023-08-05_15-07-52_vobngp.png)
 
-## What is a storage collision?
+### What is a storage collision?
 
 - Storage collision happens when a proxy and an implementation contracts use the same slot N to store their data. Due to the delegatecall, one contract might override the data of another.
 
 ![StorageCollision](https://res.cloudinary.com/dg6ijhjsn/image/upload/v1691228363/Screenshot_from_2023-08-05_15-09-09_zewahc.png)
 
-## Proxy Example
+### Proxy Example
 
 ```solidity
 ```
 
-## What benefits do proxies provide?
+### What benefits do proxies provide?
 - Proxy contracts can upgrade their implementations to overcome the bytecode immutability limitation.
 - Proxy contracts are usually small (1 kb) which makes them less expensive to deploy.
 - Proxy contracts enable the usage of amazing patterns like Diamond proxy and Contracts Dependencies Registry.
 
-## What are the downsides of proxies?
+### What are the downsides of proxies?
 
 - Because proxies may upgrade their implementations, using them reduces the trust to the protocols.
 - Upgrading contracts is not simple due to storage collisions. Usually contract upgrades bring bugs.
 - Clients might think that proxies are “a cure for all diseases”. However proxies should only be used for bug fixes & optimization purposes.
 
-## Proxy standards
+### Proxy standards
 
 - Transparent proxy
 - UUPS proxy
@@ -925,37 +925,37 @@ contract Example {
 - Diamond proxy
 - Inherited storage proxy
 
-## What are libraries?
+### What are libraries?
 
 - Libraries are contracts that can’t have storage, constructors, fallback, receive functions and can’t be inherited from. Solidity has 2 types of libraries: internal and external. Internal are inlined and called via jumps while external are called via delegatecalls and have to be specifically linked to the callees.
 
-## “Using” directive
+### “Using” directive
 
 - “Using” keyword is a solidity syntax sugar to indicate that certain variable has to be passed first to a library function.
 
 ```solidity
 ```
 
-## What are internal libraries?
+### What are internal libraries?
 
 - Internal libraries are stateless contracts that can’t be deployed on their own. They can only have internal and private functions. Internal libraries are inlined into the “main” contract during compilation.
 
 ```solidity
 ```
 
-## What are external libraries?
+### What are external libraries?
 
 - External libraries are stateless standalone contracts that have external functions. External libraries are deployable and have to be linked with the “main” contract after compilation. Non-view external functions can only be delegatecalled.
 
 ```solidity
 ```
 
-## How does external library linking work?
+### How does external library linking work?
 
 - During compilation Solidity “reserves” certain bytecode where external library is called. “Reservation” is the first 17 bytes of keccak256 hash of a library full name. 
 - The linker looks for those reserved places and substitutes the placeholder with the actual library address.
 
-## How do external libraries help?
+### How do external libraries help?
 - External libraries work with extended ABI encoding. They can work with storage references.
 - External libraries are separate contracts, so they help with bytecode splitting.
 - External libraries are stateless. They can be deployed once and used by many other contracts.
@@ -966,6 +966,77 @@ contract Example {
 ```
 
 ## Advanced Solidity: Precompiles, signatures, and bytecode
+
+### What are precompiles?
+
+- Precompiles are special smart contracts that come natively with Ethereum. They are built on top of EVM to extend its functionality. Currently there are 9 precompiled contracts available. All of them live on addresses from (0x01) to (0x09).
+
+### What precompiles are available?
+
+- ecrecover (0x01), ECDSA recovery algorithm.
+- sha256 (0x02), sha256 hash function implementation.
+- ripemd160 (0x03), ripemd160 hash function implementation.
+- identity (0x04), returns whatever is input. Used to copy memory.
+- modexp (0x05), calculates (B^E) % M with arbitrary precision.
+- ecadd (0x06), alt_bn128 elliptic curve addition.
+- ecmul (0x07), alt_bn128 elliptic curve multiplication.
+- ecpairing (0x08), alt_bn128 elliptic curve pairing.
+- blake2f (0x09), compression function used in blake2 hash function.
+
+### Precompiles properties
+
+- Precompiled contract never revert. They either return 0 or nothing if an error occurs.
+- EXCODESIZE and similar opcodes treat precompiles as EOAs. Meaning that these opcodes do not detect any bytecode under precompiles.
+- Precompiles work with calldata. Even though the accepted format differs from ABI encoding, it is still possible to call precompiles this way.
+
+### Vault unlock challenge
+- The unlock function passes if address(0x02) or address(0x03) are supplied.
+
+### Digital signatures in Ethereum
+
+- Ethereum users mainly utilize 2 types of digital signatures:
+ECDSA in the execution client to sign transactions and messages. Also precompile (0x01) is used to recover the signer on-chain.
+- [EIP-191](https://eips.ethereum.org/EIPS/eip-191) and [EIP-712](https://eips.ethereum.org/EIPS/eip-712) describe how to construct and sign messages.
+- BLS in the consensus client to sign slots attestations. BLS is used as those kind of signatures might be easily aggregated for network optimization.
+
+### Why use message signatures?
+- There are several use cases where message signatures may be used:
+- May be used by trusted parties to “approve” some sort of action for users.
+- May be used in a multisig.
+- May be used to let users sign platform terms and conditions.
+- May be used as an entropy to an encryption key generator.
+
+### EIP-191 example
+- Replay attacks are possible: cross-chain, cross-contract, cross-function.
+
+```solidity
+```
+
+### EIP-712 example
+- Replay attacks are mitigated.
+```solidity
+```
+
+### EIP-191 vs EIP-712
+
+- Always consider using EIP-712 over EIP-191.
+- Never use EIP-191 if it is a message that users have to sign.
+- EIP-191 is needed to distinguish between message & transaction signatures.
+- Proper EIP-712 makes message signature replay attacks impossible.
+- EIP-712 is a bit more expensive and cumbersome to work with.
+
+### Smart contracts bytecode
+- Init code is the contract’s bytecode after its compilation including ABI encoded constructor arguments. This is the same bytecode that is used in the tx “data” field. Init code can’t be more than 48kb.
+- Runtime code is the contract’s bytecode after its constructor execution. Runtime code can’t be more than 24kb.
+
+### Compilation example
+```solidity
+```
+
+### Example bytecode breakdown
+```solidity
+```
+
 ## Token standards, ERC20 tokens
 ## ERC721 and ERC1155 tokens
 
