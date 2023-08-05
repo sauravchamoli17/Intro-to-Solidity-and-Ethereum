@@ -861,7 +861,7 @@ contract Example {
     }
 }
 ```
--Calldata can be returned from the function. In that case it is just “forwarded” to the returndata.
+- Calldata can be returned from the function. In that case it is just “forwarded” to the returndata.
 
 ## How does returndata work?
 
